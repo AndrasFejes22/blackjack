@@ -27,7 +27,7 @@ public class Hand {
                 numberOfAces++;
             }
         }
-        System.out.println("numberOfAces: "+numberOfAces);
+        //System.out.println("numberOfAces: "+numberOfAces);
         for (int i = 0; i < numberOfAces; i++) {
             if(value + Rank.ACE.value > 21){
                 value += 1;

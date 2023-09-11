@@ -33,11 +33,11 @@ public class Dealer extends AbstractPlayer{
 
     @Override
     public void apply(Action action) {
-
+        throw new UnsupportedOperationException("The bank has internal decision making!");
     }
 
     @Override
     public List<Action> getAvailableActions() {
-        return null;
+        return List.of();
     }
 }

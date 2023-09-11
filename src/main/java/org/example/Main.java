@@ -3,14 +3,9 @@ package org.example;
 import model.cards.Card;
 import model.cards.Rank;
 import model.cards.Suit;
-import model.players.AbstractPlayer;
-import model.players.Dealer;
-import model.players.HumanPlayer;
-import model.players.PlayerStatus;
+import model.players.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,13 +25,41 @@ public class Main {
         firstRoundOfDraws.addAll(players);
         drawAllPlayer(deck, firstRoundOfDraws); // lehetnek a listában duplikációk, minden játékos húz, aztán a dealer húz, aztán megint minden játékos húz
 
-        for(HumanPlayer player : players){
-            while (player.getStatus() == PlayerStatus.PLAYING){
-                System.out.println(player);
-                // Actions: (h)it, (s)tand, (su)rrender
+        try(Scanner scanner = new Scanner(System.in)) {
+            for (HumanPlayer player : players) {
+                while (player.getStatus() == PlayerStatus.PLAYING) {
+                    System.out.println(player);
+                    // Actions: (h)it, (s)tand, (su)rrender, etc.
+                    List<Action> actions = player.getAvailableActions();
+                    System.out.print("Actions" + getActionLabels(actions) + "? ");
+                    String userInput = scanner.nextLine();
+                    Optional<Action> selectedAction = findActionByCommand(actions, userInput);
+                    if(selectedAction.isPresent()){
+                        player.apply(selectedAction.get());
+                    } else {
+                        System.out.println("Unknown action command!");
+                    }
+                }
             }
         }
 
+    }
+
+    private static Optional<Action> findActionByCommand(List<Action> actions, String userInput) {
+        for(Action action : actions){
+            if(Character.toString(action.command).equalsIgnoreCase(userInput)){
+                return Optional.of(action);
+            }
+        }
+        return Optional.empty();
+    }
+
+    private static String getActionLabels(List<Action> actions) {
+        StringJoiner joiner = new StringJoiner(", ");
+        for(Action action : actions){
+            joiner.add(action.label);
+        }
+        return joiner.toString();
     }
 
     private static void drawAllPlayer(List<Card> deck, List<AbstractPlayer> players){
