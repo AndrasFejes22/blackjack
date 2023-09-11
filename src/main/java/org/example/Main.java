@@ -15,7 +15,8 @@ public class Main {
 
         // Players, Dealer
         Dealer dealer = new Dealer();
-        List<HumanPlayer> players = List.of(new HumanPlayer("Player #1"), new HumanPlayer("Player #2"));
+        //List<HumanPlayer> players = List.of(new HumanPlayer("Player #1"), new HumanPlayer("Player #2"));
+        List<HumanPlayer> players = List.of(new HumanPlayer("Player #1"));
 
         // Betting
 
@@ -27,15 +28,17 @@ public class Main {
 
         try(Scanner scanner = new Scanner(System.in)) {
             for (HumanPlayer player : players) {
+                System.out.println(player);
                 while (player.getStatus() == PlayerStatus.PLAYING) {
-                    System.out.println(player);
+
                     // Actions: (h)it, (s)tand, (su)rrender, etc.
                     List<Action> actions = player.getAvailableActions();
-                    System.out.print("Actions" + getActionLabels(actions) + "? ");
+                    System.out.print("Actions: " + getActionLabels(actions) + "? ");
                     String userInput = scanner.nextLine();
                     Optional<Action> selectedAction = findActionByCommand(actions, userInput);
                     if(selectedAction.isPresent()){
-                        player.apply(selectedAction.get());
+                        player.apply(selectedAction.get(), deck);
+                        System.out.println(player);
                     } else {
                         System.out.println("Unknown action command!");
                     }

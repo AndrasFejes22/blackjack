@@ -40,6 +40,17 @@ class HandTest {
         hand2.addCard(card6);
 
         assertEquals(21, hand2.getValue());
+        // 16?
+        Card card7 = new Card(Suit.DIAMOND, Rank.FIVE);
+        Card card8 = new Card(Suit.SPADE, Rank.ACE);
+        Card card9 = new Card(Suit.HEART, Rank.QUEEN);
+
+        Hand hand3 = new Hand();
+        hand3.addCard(card7);
+        hand3.addCard(card8);
+        hand3.addCard(card9);
+        assertEquals(16, hand3.getValue());
+
         /*
         // case: 10, A, A -> 21 (Not real case, after 10 + A --> Stand)
         Card card5 =new Card(Suit.CLUB, Rank.TEN);

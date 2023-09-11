@@ -1,5 +1,7 @@
 package model.players;
 
+import model.cards.Card;
+
 import java.util.List;
 
 public class HumanPlayer extends AbstractPlayer{
@@ -9,8 +11,15 @@ public class HumanPlayer extends AbstractPlayer{
     }
 
     @Override
-    public void apply(Action action) {
-
+    public void apply(Action action, List<Card> deck) {
+        if(status != PlayerStatus.PLAYING){// can be static import
+            throw new IllegalStateException("No action should be applied in " + status + " status!");
+        }
+        switch (action){
+            case HIT -> draw(deck);
+            case STAND -> status = PlayerStatus.STANDING;
+            case SURRENDER -> status = PlayerStatus.SURRENDED;
+        }
     }
 
     /**

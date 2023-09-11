@@ -27,6 +27,7 @@ public abstract class AbstractPlayer {
     }
 
     public void draw (List<Card> deck){
+        System.out.println("Drawing");
         if(status != PlayerStatus.PLAYING){
             throw new IllegalStateException("Cannot draw in " + status + " status!");
         }
@@ -36,11 +37,11 @@ public abstract class AbstractPlayer {
             status = PlayerStatus.BUSTED;
         }
         if(value == Hand.BLACK_JACK_VALUE){
-            status = PlayerStatus.FINISHED;
+            status = PlayerStatus.STANDING;
         }
     }
 
-    public abstract void apply(Action action);
+    public abstract void apply(Action action, List<Card> deck);
     public abstract List<Action> getAvailableActions();
 
     @Override
