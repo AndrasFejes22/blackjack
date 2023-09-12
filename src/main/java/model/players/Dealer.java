@@ -23,7 +23,11 @@ public class Dealer extends AbstractPlayer{
         int value = hand.getValue();
 
         if(value >= TARGET_HAND_VALUE){
-            status = PlayerStatus.STANDING;
+            if(hand.getNumberOfCards() == 2) {
+                status = PlayerStatus.BLACKJACK;
+            } else {
+                status = PlayerStatus.STANDING;
+            }
         }
 
         if(value > Hand.BLACK_JACK_VALUE){ // can be static import
