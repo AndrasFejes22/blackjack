@@ -2,5 +2,5 @@ package model.players;
 
 public enum PlayerStatus {
 
-    PLAYING, BUSTED, STANDING, SURRENDERED
+    PLAYING, BUSTED, STANDING, SURRENDERED, BLACKJACK
 }

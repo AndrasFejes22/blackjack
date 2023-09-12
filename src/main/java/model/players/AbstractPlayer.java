@@ -37,7 +37,11 @@ public abstract class AbstractPlayer {
             status = PlayerStatus.BUSTED;
         }
         if(value == Hand.BLACK_JACK_VALUE){
-            status = PlayerStatus.STANDING;
+            if(hand.getNumberOfCards() == 2) {
+                status = PlayerStatus.BLACKJACK;
+            } else {
+                status = PlayerStatus.STANDING;
+            }
         }
     }
 
