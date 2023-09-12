@@ -18,7 +18,7 @@ public class HumanPlayer extends AbstractPlayer{
         switch (action){
             case HIT -> draw(deck);
             case STAND -> status = PlayerStatus.STANDING;
-            case SURRENDER -> status = PlayerStatus.SURRENDED;
+            case SURRENDER -> status = PlayerStatus.SURRENDERED;
         }
     }
 
@@ -39,5 +39,10 @@ public class HumanPlayer extends AbstractPlayer{
             return List.of(Action.HIT, Action.STAND);
         }
 
+    }
+
+    @Override
+    public int getHandValue() {
+        return 0;
     }
 }

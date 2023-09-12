@@ -44,6 +44,8 @@ public abstract class AbstractPlayer {
     public abstract void apply(Action action, List<Card> deck);
     public abstract List<Action> getAvailableActions();
 
+    public abstract int getHandValue();
+
     @Override
     public String toString() {
        return name + ": " + hand;

@@ -40,4 +40,9 @@ public class Dealer extends AbstractPlayer{
     public List<Action> getAvailableActions() {
         return List.of();
     }
+
+    @Override
+    public int getHandValue() {
+        return 0;
+    }
 }

@@ -44,6 +44,35 @@ public class Main {
                     }
                 }
             }
+            // Dealer should draw cards
+            while (dealer.getStatus() == PlayerStatus.PLAYING) {
+                dealer.draw(deck);
+            }
+            System.out.println(dealer);
+
+            // Evaluate:
+            for (HumanPlayer player : players) {
+                // az AbstractPlayer draw() metódusa kiértékel ( a Hand class getValue() metódusa segítségével)!!!
+                // tehát onna megvan a status:
+                switch (player.getStatus()){
+                    case BUSTED -> System.out.println(player.getName() + " busted, lost their bet!");
+                    case SURRENDERED -> System.out.println(player.getName() + " surrendered!");
+                    case STANDING -> {
+                        if(dealer.getStatus() == PlayerStatus.BUSTED){
+                            System.out.println(player.getName() + " won because " + dealer.getName() + " busted!");
+                        } else {
+                            if(dealer.getHandValue() > player.getHandValue()){
+                                System.out.println(player.getName() + "lost because " + dealer.getName() + "has more points.");
+                            } else if (dealer.getHandValue() == player.getHandValue()) {
+                                System.out.println(player.getName() + "is in tie with " + dealer.getName());
+                            } else {
+                                System.out.println(player.getName() + "won");
+                            }
+                        }
+                    }
+                }
+            }
+
         }
 
     }
