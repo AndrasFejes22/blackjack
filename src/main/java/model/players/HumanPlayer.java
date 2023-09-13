@@ -41,8 +41,5 @@ public class HumanPlayer extends AbstractPlayer{
 
     }
 
-    @Override
-    public int getHandValue() {
-        return 0;
-    }
+
 }

@@ -48,7 +48,9 @@ public abstract class AbstractPlayer {
     public abstract void apply(Action action, List<Card> deck);
     public abstract List<Action> getAvailableActions();
 
-    public abstract int getHandValue();
+    public int getHandValue(){
+        return hand.getValue();
+    }
 
     @Override
     public String toString() {
