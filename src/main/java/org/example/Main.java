@@ -66,9 +66,18 @@ public class Main {
              *     Ha a játékos az első két lapjának összértéke pontosan 21 (Blackjack), és az osztó nem Blackjack-et ért el, akkor a játékos a megtett tétet 3:2 arányban kapja meg.
              */
             for (HumanPlayer player : players) {
-                String message;
-                final String playerName = player.getName();
-                final String dealerName = dealer.getName();
+                String message = switch (player.getStatus()) {
+                    case BUSTED -> player.getName() + " busted and lost";
+                    case SURRENDERED -> player.getName() + " surrendered";
+                    case BLACKJACK -> handlePlayerBlackJack(player, dealer);
+                    case STANDING -> handlePlayerStanding(player, dealer);
+                    case PLAYING -> throw new IllegalStateException(player.getName() + " should not be in " + player.getStatus() + " status");
+                };
+                System.out.println(message);
+            }
+
+            /*
+            for (HumanPlayer player : players) {
                 // az AbstractPlayer draw() metódusa kiértékel ( a Hand class getValue() metódusa segítségével)!!!
                 // tehát onna megvan a status:
                 switch (player.getStatus()){
@@ -97,9 +106,34 @@ public class Main {
                     case PLAYING -> throw new IllegalStateException(player.getName() + " should not be in " + player.getStatus() + " staus!");
                 }
             }
+            */
 
         }
 
+    }
+
+    private static String handlePlayerBlackJack(HumanPlayer player, Dealer dealer) {
+        String playerName = player.getName();
+        if (dealer.getStatus() == PlayerStatus.BLACKJACK) {
+            return playerName + " lost, because " + dealer.getName() + " has BLACKJACK too";
+        } else {
+            return playerName + " won with BLACKJACK";
+        }
+    }
+
+    private static String handlePlayerStanding(HumanPlayer player, Dealer dealer) {
+        String playerName = player.getName();
+        String dealerName = dealer.getName();
+        if (dealer.getStatus() == PlayerStatus.BUSTED) {
+            return playerName + " won, because " + dealerName + " busted";
+        }
+        if (dealer.getHandValue() > player.getHandValue()) {
+            return playerName + " lost to " + dealerName + " by having less points";
+        } else if (dealer.getHandValue() == player.getHandValue()) {
+            return playerName + " is in tie with " + dealerName;
+        } else {
+            return playerName + " won";
+        }
     }
 
     private static boolean isAnyPlayerIn(List<HumanPlayer> players, Set<PlayerStatus> desiredStatus) { // Set.of(PlayerStatus.BLACKJACK, PlayerStatus.STANDING))
