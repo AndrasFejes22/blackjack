@@ -14,10 +14,14 @@ public class HumanPlayer extends AbstractPlayer{
         this.budget = 50;
     }
 
+    public int getBudget() {
+        return budget;
+    }
+
     @Override
     public void apply(Action action, List<Card> deck) {
         if(status != PlayerStatus.PLAYING){// can be static import
-            throw new IllegalStateException("No action should be applied in " + status + " status!");
+            throw new IllegalStateException("No action should be applied in " + status + " status!"); //*ezt itt eldobjuk
         }
         switch (action){
             case HIT -> draw(deck);
@@ -45,11 +49,18 @@ public class HumanPlayer extends AbstractPlayer{
     }
 
     public void createHand(int bet){
+        if (bet < 0) {
+            throw new IllegalArgumentException("Bet cannot be negative!");
+        }
         if(bet > budget){
             throw new IllegalArgumentException("Bet (" + bet + ") cannot be greater than player budget (" + budget + ")");
         }
-        hand = new Hand(bet);
-        budget -= bet;
+        if (bet != 0) {
+            hand = new Hand(bet);
+            budget -= bet;
+        } else {
+            status = PlayerStatus.SKIPPED;
+        }
     }
 
     public void collectRevard(double multiplier){

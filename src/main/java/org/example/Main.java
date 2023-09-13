@@ -18,15 +18,37 @@ public class Main {
         //List<HumanPlayer> players = List.of(new HumanPlayer("Player #1"), new HumanPlayer("Player #2"));
         List<HumanPlayer> players = List.of(new HumanPlayer("Player #1"));
 
-        // Betting
 
-        // Setup of first round of cards
-        List<AbstractPlayer> firstRoundOfDraws = new ArrayList<>(players);
-        firstRoundOfDraws.add(dealer);
-        firstRoundOfDraws.addAll(players);
-        drawAllPlayer(deck, firstRoundOfDraws); // lehetnek a listában duplikációk, minden játékos húz, aztán a dealer húz, aztán megint minden játékos húz
 
         try(Scanner scanner = new Scanner(System.in)) {
+            // Betting
+            System.out.println("Please place your bets!");
+            System.out.println("(place 0 bet, if you would like to skip this round)");
+            for (HumanPlayer player : players) {
+                while (true) {
+                    try {
+                        System.out.printf("%s's bet (1 - %d): ", player.getName(), player.getBudget());
+                        String userInput = scanner.nextLine();
+                        int bet = Integer.parseInt(userInput);
+                        // create hand:
+                        player.createHand(bet);
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input, please try again!");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage()); //*itt elkapjuk
+                    }
+                }
+            }
+
+            // Setup of first round of cards
+            List<AbstractPlayer> firstRoundOfDraws = new ArrayList<>(players);
+            firstRoundOfDraws.add(dealer);
+            firstRoundOfDraws.addAll(players);
+            drawAllPlayer(deck, firstRoundOfDraws); // lehetnek a listában duplikációk, minden játékos húz, aztán a dealer húz, aztán megint minden játékos húz
+
+
+            // Next round each player draws
             for (HumanPlayer player : players) {
                 System.out.println(player);
                 while (player.getStatus() == PlayerStatus.PLAYING) {
