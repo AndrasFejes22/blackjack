@@ -22,7 +22,7 @@ class HandTest {
         Card card3 =new Card(Suit.CLUB, Rank.NINE);
         Card card4 =new Card(Suit.CLUB, Rank.ACE);
 
-        Hand hand = new Hand();
+        Hand hand = new Hand(50);
         hand.addCard(card);
         hand.addCard(card2);
         hand.addCard(card3);
@@ -35,7 +35,7 @@ class HandTest {
         Card card5 = new Card(Suit.CLUB, Rank.TEN);
         Card card6 = new Card(Suit.CLUB, Rank.ACE);
 
-        Hand hand2 = new Hand();
+        Hand hand2 = new Hand(50);
         hand2.addCard(card5);
         hand2.addCard(card6);
 
@@ -45,7 +45,7 @@ class HandTest {
         Card card8 = new Card(Suit.SPADE, Rank.ACE);
         Card card9 = new Card(Suit.HEART, Rank.QUEEN);
 
-        Hand hand3 = new Hand();
+        Hand hand3 = new Hand(50);
         hand3.addCard(card7);
         hand3.addCard(card8);
         hand3.addCard(card9);

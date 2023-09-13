@@ -12,7 +12,7 @@ public abstract class AbstractPlayer {
 
     private final String name;
     protected PlayerStatus status = PlayerStatus.PLAYING;
-    protected Hand hand = new Hand();
+    protected Hand hand;
 
     protected AbstractPlayer(String name) {
         this.name = name;

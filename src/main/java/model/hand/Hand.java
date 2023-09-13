@@ -10,11 +10,19 @@ public class Hand {
 
     private final List<Card> cards = new ArrayList<>();
     public static final int BLACK_JACK_VALUE = 21;
+    private int bet;
+
+    public Hand(int bet) {
+        this.bet = bet;
+    }
+
+    public int getBet() {
+        return bet;
+    }
 
     public void addCard(Card card){
         cards.add(card);
     }
-
 
     // Ace case: A, 9, 9, A -> 20
     public int getValue(){

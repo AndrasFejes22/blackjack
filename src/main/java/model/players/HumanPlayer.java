@@ -1,13 +1,17 @@
 package model.players;
 
 import model.cards.Card;
+import model.hand.Hand;
 
 import java.util.List;
 
 public class HumanPlayer extends AbstractPlayer{
 
+    private int budget; // to bet
+
     public HumanPlayer(String name) {
         super(name);
+        this.budget = 50;
     }
 
     @Override
@@ -38,8 +42,19 @@ public class HumanPlayer extends AbstractPlayer{
         } else {
             return List.of(Action.HIT, Action.STAND);
         }
-
     }
 
+    public void createHand(int bet){
+        if(bet > budget){
+            throw new IllegalArgumentException("Bet (" + bet + ") cannot be greater than player budget (" + budget + ")");
+        }
+        hand = new Hand(bet);
+        budget -= bet;
+    }
+
+    public void collectRevard(double multiplier){
+        budget += (int) (hand.getBet() * multiplier);
+        hand = null;
+    }
 
 }
