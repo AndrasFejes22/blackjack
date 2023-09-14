@@ -94,6 +94,7 @@ public class Main {
                     case BLACKJACK -> handlePlayerBlackJack(player, dealer);
                     case STANDING -> handlePlayerStanding(player, dealer);
                     case PLAYING -> throw new IllegalStateException(player.getName() + " should not be in " + player.getStatus() + " status");
+                    case SKIPPED -> player.getName() + " skipped this round!";
                 };
                 System.out.println(message);
             }
@@ -186,7 +187,9 @@ public class Main {
 
     private static void drawAllPlayer(List<Card> deck, List<AbstractPlayer> players){
         for(AbstractPlayer player : players){
-            player.draw(deck);
+            if(player.getStatus() == PlayerStatus.PLAYING) {
+                player.draw(deck);
+            }
         }
     }
 

@@ -12,6 +12,7 @@ public class Dealer extends AbstractPlayer{
 
     public Dealer() {
         super("Bank");
+        hand = new Hand(0);
     }
 
     @Override
