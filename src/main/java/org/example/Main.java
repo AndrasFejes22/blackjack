@@ -4,6 +4,7 @@ import model.cards.Card;
 import model.cards.Rank;
 import model.cards.Suit;
 import model.players.*;
+import model.result.RoundResults;
 
 import java.util.*;
 
@@ -88,15 +89,17 @@ public class Main {
              *     Ha a játékos az első két lapjának összértéke pontosan 21 (Blackjack), és az osztó nem Blackjack-et ért el, akkor a játékos a megtett tétet 3:2 arányban kapja meg.
              */
             for (HumanPlayer player : players) {
-                String message = switch (player.getStatus()) {
-                    case BUSTED -> player.getName() + " busted and lost";
-                    case SURRENDERED -> player.getName() + " surrendered";
+                RoundResults results = switch (player.getStatus()) {
+                    case BUSTED -> new RoundResults(player.getName() + " busted and lost", 0);
+                    case SURRENDERED -> new RoundResults(player.getName() + " surrendered", 0.5);
                     case BLACKJACK -> handlePlayerBlackJack(player, dealer);
                     case STANDING -> handlePlayerStanding(player, dealer);
                     case PLAYING -> throw new IllegalStateException(player.getName() + " should not be in " + player.getStatus() + " status");
-                    case SKIPPED -> player.getName() + " skipped this round!";
+                    case SKIPPED -> new RoundResults(player.getName() + " skipped this round", 0);
                 };
-                System.out.println(message);
+                player.collectReward(results.multiplier());
+                System.out.println(results.message());
+                System.out.println(player.getName() + "'s budget: " + player.getBudget());
             }
 
             /*
@@ -135,27 +138,27 @@ public class Main {
 
     }
 
-    private static String handlePlayerBlackJack(HumanPlayer player, Dealer dealer) {
+    private static RoundResults  handlePlayerBlackJack(HumanPlayer player, Dealer dealer) {
         String playerName = player.getName();
         if (dealer.getStatus() == PlayerStatus.BLACKJACK) {
-            return playerName + " lost, because " + dealer.getName() + " has BLACKJACK too";
+            return new RoundResults(playerName + " lost, because " + dealer.getName() + " has BLACKJACK too", 0);
         } else {
-            return playerName + " won with BLACKJACK";
+            return new RoundResults(playerName + " won with BLACKJACK", 2.5);
         }
     }
 
-    private static String handlePlayerStanding(HumanPlayer player, Dealer dealer) {
+    private static RoundResults handlePlayerStanding(HumanPlayer player, Dealer dealer) {
         String playerName = player.getName();
         String dealerName = dealer.getName();
         if (dealer.getStatus() == PlayerStatus.BUSTED) {
-            return playerName + " won, because " + dealerName + " busted";
+            return new RoundResults(playerName + " won, because " + dealerName + " busted", 2);
         }
         if (dealer.getHandValue() > player.getHandValue()) {
-            return playerName + " lost to " + dealerName + " by having less points";
+            return new RoundResults(playerName + " lost to " + dealerName + " by having less points", 0);
         } else if (dealer.getHandValue() == player.getHandValue()) {
-            return playerName + " is in tie with " + dealerName;
+            return new RoundResults(playerName + " is in tie with " + dealerName, 1);
         } else {
-            return playerName + " won";
+            return new RoundResults(playerName + " won", 2);
         }
     }
 

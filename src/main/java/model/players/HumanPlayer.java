@@ -63,9 +63,11 @@ public class HumanPlayer extends AbstractPlayer{
         }
     }
 
-    public void collectRevard(double multiplier){
-        budget += (int) (hand.getBet() * multiplier);
-        hand = null;
+    public void collectReward(double multiplier) {
+        if (status != PlayerStatus.SKIPPED) {
+            budget += hand.getBet() * multiplier;
+            hand = null;
+        }
     }
 
 }
