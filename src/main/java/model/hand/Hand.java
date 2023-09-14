@@ -49,7 +49,14 @@ public class Hand {
 
     @Override
     public String toString() {
-        return cards + " (" + getValue() + ")";
+        int value = getValue();
+        String valueAsString;
+        if (value == BLACK_JACK_VALUE && cards.size() == 2) {
+            valueAsString = "BLACKJACK";
+        } else {
+            valueAsString = Integer.toString(value);
+        }
+        return cards + " (" + valueAsString + ")";
     }
 
     public int getNumberOfCards(){

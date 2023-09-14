@@ -53,7 +53,10 @@ public abstract class AbstractPlayer {
     }
 
     @Override
-    public String toString() {
+    public String toString() { // hand null if bet 0
+        if(status == PlayerStatus.SKIPPED){
+            return name + " skipped";
+        }
        return name + ": " + hand;
     }
 }
